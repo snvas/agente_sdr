@@ -1,0 +1,9 @@
+responder_pergunta_compliance:
+  description: >
+    Explica em linguagem acessível os principais requisitos de normas como ISO 27001, LGPD, GDPR, NIST ou PCI-DSS, destacando o que é mais relevante para o contexto da equipe.
+    Pergunta:
+    {pergunta}
+  expected_output: >
+    'Explicação detalhada e simplificada da norma solicitada, destacando os principais pontos relevantes para o contexto informado, com exemplos práticos aplicáveis à realidade da equipe.'
+
+  agent: especialista_compliance
