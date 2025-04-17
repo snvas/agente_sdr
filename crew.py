@@ -1,40 +1,63 @@
 from crewai import Agent, Crew, Process, Task, LLM
 from crewai.project import CrewBase, agent, crew, task
-from crewai.knowledge.source.pdf_knowledge_source import PDFKnowledgeSource
-
-pdf_tool = PDFKnowledgeSource(
-    file_paths=['guia_lgpd.pdf', 'lgpd.pdf']
-)
+from tools import web_search, sentiment_tool
 
 llm = LLM(model="gpt-4o-mini", temperature=0)
 
 @CrewBase
-class ComplianceCrew:
+class SalesCrew:
     agents_config = 'config/agents.yaml'
     tasks_config = 'config/tasks.yaml'
 
+    def __init__(self):
+        self.web_search = web_search
+        self.sentiment_tool = sentiment_tool
+        super().__init__()
+
     @agent
-    def especialista_compliance(self) -> Agent:
+    def sales_rep_agent(self) -> Agent:
         return Agent(
-            config=self.agents_config['especialista_compliance'],
+            config=self.agents_config['sales_rep_agent'],
             verbose=True,
-            tools=[],
+            tools=[self.web_search],
+            llm=llm,
+        )
+    
+    @agent
+    def lead_sales_rep_agent(self) -> Agent:
+        return Agent(
+            config=self.agents_config['lead_sales_rep_agent'],
+            verbose=True,
+            tools=[self.sentiment_tool, self.web_search],
             llm=llm,
         )
     
     @task
-    def responder_pergunta_compliance(self) -> Task:
+    def lead_profiling_task(self) -> Task:
+        task_config = self.tasks_config["lead_profiling_task"]
         return Task(
-            config=self.tasks_config["responder_pergunta_compliance"]
+            description=task_config["description"],
+            expected_output=task_config["expected_output"],
+            tools=[self.web_search],
+            agent=self.sales_rep_agent()
+        )
+    
+    @task
+    def personalized_outreach_task(self) -> Task:
+        task_config = self.tasks_config["personalized_outreach_task"]
+        return Task(
+            description=task_config["description"],
+            expected_output=task_config["expected_output"],
+            tools=[self.web_search, self.sentiment_tool],
+            agent=self.lead_sales_rep_agent()
         )
     
     @crew
     def crew(self) -> Crew:
-        """Creates the MquestKnowledge"""
+        """Creates the Sales Development Crew"""
         return Crew(
-            agents=[self.especialista_compliance()],
-            tasks=[self.responder_pergunta_compliance()],
+            agents=[self.sales_rep_agent(), self.lead_sales_rep_agent()],
+            tasks=[self.lead_profiling_task(), self.personalized_outreach_task()],
             process=Process.sequential,
             verbose=True,
-            knowledge_sources=[pdf_tool],
         )

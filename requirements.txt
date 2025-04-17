@@ -1,0 +1,5 @@
+crewai
+streamlit
+crewai-tools
+textblob
+langchain

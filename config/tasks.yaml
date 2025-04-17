@@ -1,9 +1,91 @@
-responder_pergunta_compliance:
-  description: >
-    Explica em linguagem acessível os principais requisitos de normas como ISO 27001, LGPD, GDPR, NIST ou PCI-DSS, destacando o que é mais relevante para o contexto da equipe.
-    Pergunta:
-    {pergunta}
-  expected_output: >
-    'Explicação detalhada e simplificada da norma solicitada, destacando os principais pontos relevantes para o contexto informado, com exemplos práticos aplicáveis à realidade da equipe.'
+lead_profiling_task:
+    description: >
+        Realize uma análise aprofundada sobre {lead_name}, 
+        uma empresa do setor de {industry} que apresenta potencial aderência aos serviços da {company_name}. 
+        
+        Considere o seguinte ICP (Ideal Customer Profile) da {company_name}:
+        {company_icp}
+        
+        Utilize todas as fontes de dados disponíveis para compilar um perfil detalhado, 
+        com foco nos principais tomadores de decisão (diretores, C-level), 
+        contexto estratégico da empresa, posicionamento de mercado e potenciais interesses em {company_services}. 
+        
+        Avalie se o lead se encaixa no ICP da empresa, considerando:
+        - Tamanho da empresa
+        - Faturamento
+        - Número de funcionários
+        - Necessidades e desafios
+        - Potencial de crescimento
+        - Alinhamento com os serviços oferecidos
+        
+        Considere o seguinte contexto para a abordagem: {pergunta}
+        Não faça suposições e utilize apenas informações das quais tenha absoluta certeza.
+    expected_output: >
+        Um relatório completo sobre {lead_name}, contendo:
+        
+        1. Análise de Fit com ICP:
+           - Avaliação detalhada de como o lead se encaixa no ICP da {company_name}
+           - Pontos fortes de alinhamento
+           - Possíveis gaps ou diferenças
+           - Recomendação sobre o potencial do lead
+        
+        2. Perfil da Empresa:
+           - Histórico e contexto
+           - Executivos-chave
+           - Iniciativas recentes
+           - Temas estratégicos
+        
+        3. Pontos de Conexão:
+           - Possíveis pontos de conexão com os serviços da {company_name}
+           - Oportunidades identificadas
+           - Desafios que podem ser endereçados
+        
+        4. Sugestões de Abordagem:
+           - Estratégias baseadas no contexto fornecido: {pergunta}
+           - Ângulos de abordagem específicos
+           - Elementos a destacar na comunicação
+    agent: sales_rep_agent
 
-  agent: especialista_compliance
+personalized_outreach_task:
+    description: >
+        Utilizando os insights obtidos no relatório de perfil de {lead_name}, 
+        elabore uma comunicação personalizada para {key_decision_maker}, 
+        {position} da {lead_name}. 
+        
+        Considere o ICP da {company_name}:
+        {company_icp}
+        
+        A comunicação deve ser baseada no seguinte contexto: {pergunta}
+        
+        A comunicação deve evidenciar como os serviços da {company_name} ({company_services}) podem apoiar os objetivos e desafios estratégicos da organização. 
+        A mensagem deve refletir um entendimento genuíno do contexto do lead, seu posicionamento e valores institucionais.
+        
+        Gere a mensagem no formato de {message_type}, adaptando o tom e a estrutura conforme o canal escolhido:
+        - Para E-mail: Use um formato mais formal e estruturado, com saudações e assinatura apropriadas
+        - Para LinkedIn: Use um tom mais direto e profissional, adequado para mensagens diretas na plataforma
+        
+        Não faça suposições e utilize apenas informações das quais tenha absoluta certeza.
+        Utilize a ferramenta de análise de sentimento para garantir que a comunicação mantenha um tom positivo e engajador.
+    expected_output: >
+        Uma mensagem personalizada em português, direcionada à empresa {lead_name} e ao executivo {key_decision_maker}. 
+        
+        1. Análise de Fit:
+           - Breve resumo de como o lead se encaixa no ICP
+           - Pontos-chave de alinhamento a destacar
+        
+        2. Mensagem Principal:
+           - Conexão entre os serviços da {company_name} ({company_services}) e os desafios/objetivos da organização
+           - Tom consultivo e profissional
+           - Alinhamento com a identidade institucional da empresa
+        
+        3. Formatação:
+           - Estrutura e tom apropriados para {message_type}
+           - Elementos específicos do formato (ex: saudações, assinatura para e-mail)
+           - Chamadas para ação relevantes para o canal
+        
+        4. Validação:
+           - Resultado da análise de sentimento
+           - Ajustes realizados para garantir tom positivo
+        
+        A mensagem deve ser baseada no contexto fornecido: {pergunta}
+    agent: lead_sales_rep_agent
