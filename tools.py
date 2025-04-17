@@ -1,6 +1,5 @@
-from crewai_tools import WebsiteSearchTool, tool
+from crewai_tools import WebsiteSearchTool
 
-@tool("Sentiment Analysis Tool")
 def sentiment_tool(text: str) -> str:
     """Analyzes the sentiment of text."""
     from textblob import TextBlob
