@@ -1,36 +1,28 @@
-from crewai.tools import BaseTool
+from crewai.tools import BaseTool, SerperDevTool
 from textblob import TextBlob
-from crewai_tools import SerperDevTool
 from typing import Any
 
+class WebSearchTool(BaseTool):
+    name: str = "Web Search"
+    description: str = "Search the web for information about a company or person"
+
+    def _run(self, query: str) -> str:
+        search = SerperDevTool()
+        return search.run(query)
+
 class SentimentAnalysisTool(BaseTool):
-    name: str = "sentiment_analysis"
-    description: str = "Analyzes the sentiment of text to ensure positive and engaging communication."
-    return_direct: bool = True
+    name: str = "Sentiment Analysis"
+    description: str = "Analyze the sentiment of a text"
 
     def _run(self, text: str) -> str:
-        # Using TextBlob for sentiment analysis
         analysis = TextBlob(text)
-        
-        # Get polarity score (-1 to 1)
-        polarity = analysis.sentiment.polarity
-        
-        # Classify sentiment
-        if polarity > 0.3:
-            return "muito positivo"
-        elif polarity > 0:
-            return "positivo"
-        elif polarity == 0:
-            return "neutro"
-        elif polarity > -0.3:
-            return "negativo"
+        sentiment = analysis.sentiment.polarity
+        if sentiment > 0:
+            return "Positive"
+        elif sentiment < 0:
+            return "Negative"
         else:
-            return "muito negativo"
+            return "Neutral"
 
-    async def _arun(self, text: str) -> str:
-        raise NotImplementedError("This tool does not support async")
-
-# Initialize tools
-web_search = SerperDevTool()
-web_search.name = "web_search"  # Override the name to match the YAML configuration
+web_search = WebSearchTool()
 sentiment_tool = SentimentAnalysisTool() 
