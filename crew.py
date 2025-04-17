@@ -2,24 +2,28 @@ from crewai import Agent, Crew, Process, Task
 from crewai.project import CrewBase, agent, crew, task
 from langchain_openai import ChatOpenAI
 from tools import web_search, sentiment_tool
+from config import load_config
 
 
 llm = ChatOpenAI(
-    model="gpt-4o-mini",
+    model="gpt-3.5-turbo",
     temperature=0,
     max_tokens=2000,
     streaming=True
 )
 
+
 @CrewBase
 class SalesCrew:
-    agents_config = 'config/agents.yaml'
-    tasks_config = 'config/tasks.yaml'
+    config = load_config()
+
+    #agents_config = 'config/agents.yaml'
+    #tasks_config = 'config/tasks.yaml'
 
     @agent
     def sales_rep_agent(self) -> Agent:
         return Agent(
-            config=self.agents_config['sales_rep_agent'],
+            config=self.config['agents']['sales_rep_agent'],
             verbose=True,
             tools=[web_search],
             llm=llm,
@@ -28,7 +32,7 @@ class SalesCrew:
     @agent
     def lead_sales_rep_agent(self) -> Agent:
         return Agent(
-            config=self.agents_config['lead_sales_rep_agent'],
+            config=self.config['agents']['lead_sales_rep_agent'],
             verbose=True,
             tools=[sentiment_tool, web_search],
             llm=llm,
@@ -36,7 +40,7 @@ class SalesCrew:
 
     @task
     def lead_profiling_task(self) -> Task:
-        task_config = self.tasks_config["lead_profiling_task"]
+        task_config=self.config['tasks']["lead_profiling_task"]
         return Task(
             description=task_config["description"],
             expected_output=task_config["expected_output"],
@@ -46,7 +50,7 @@ class SalesCrew:
 
     @task
     def personalized_outreach_task(self) -> Task:
-        task_config = self.tasks_config["personalized_outreach_task"]
+        task_config=self.config['tasks']["personalized_outreach_task"]
         return Task(
             description=task_config["description"],
             expected_output=task_config["expected_output"],
