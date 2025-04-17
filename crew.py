@@ -1,8 +1,14 @@
-from crewai import Agent, Crew, Process, Task, LLM
+from crewai import Agent, Crew, Process, Task
 from crewai.project import CrewBase, agent, crew, task
+from langchain_openai import ChatOpenAI
 from tools import web_search, sentiment_tool
 
-llm = LLM(model="gpt-4o-mini", temperature=0)
+llm = ChatOpenAI(
+    model="gpt-4o-mini",
+    temperature=0,
+    max_tokens=2000,
+    streaming=True
+)
 
 @CrewBase
 class SalesCrew:
