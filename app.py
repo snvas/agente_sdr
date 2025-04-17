@@ -78,6 +78,7 @@ if st.button("🚀 Iniciar Análise e Abordagem", key="main_button"):
 
 # Exibe o resultado se existir
 if st.session_state.resultado:
+    st.markdown(st.session_state.resultado.tasks_output[0].raw)
     # Formata o resultado em markdown com borda sólida branca
     resultado_formatado = f"""
     <div style="font-family: Roboto, sans-serif; font-size: 16px; line-height: 1.6; color: #fff; border: 2px solid white; padding: 15px; border-radius: 5px;">

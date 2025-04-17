@@ -1,6 +1,7 @@
 import pysqlite3
 import sys
 sys.modules["sqlite3"] = sys.modules.pop("pysqlite3")
+
 from crew import SalesCrew
 from config import load_config
 
@@ -28,6 +29,7 @@ def run_sales_development(pergunta: str, inputs: dict = None):
         }
 
         result = crew_instance.crew().kickoff(inputs=full_inputs)
+        print(result.tasks_output[0].expected_output)
         return result
     except Exception as e:
         return f"Erro ao processar a solicitação: {str(e)}"
