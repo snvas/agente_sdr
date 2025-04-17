@@ -1,5 +1,7 @@
-crewai
-streamlit
+crewai>=0.11.0
+streamlit>=1.32.0
 crewai-tools
-textblob
-langchain
+textblob>=0.17.1
+langchain>=0.1.0
+openai>=1.12.0
+python-dotenv>=1.0.0
