@@ -4,7 +4,7 @@ from langchain_openai import ChatOpenAI
 from tools import web_search, sentiment_tool
 
 llm = ChatOpenAI(
-    model="gpt-4o-mini",
+    model="gpt-3.5-turbo",
     temperature=0,
     max_tokens=2000,
     streaming=True
