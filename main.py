@@ -1,3 +1,6 @@
+import pysqlite3
+import sys
+sys.modules["sqlite3"] = sys.modules.pop("pysqlite3")
 from crew import SalesCrew
 from config import load_config
 
