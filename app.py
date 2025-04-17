@@ -2,14 +2,12 @@ import pysqlite3
 import sys
 sys.modules["sqlite3"] = sys.modules.pop("pysqlite3")
 
-
-
 import streamlit as st
 from main import run_sales_development
 
 # Configuração da página
 st.set_page_config(
-    page_title="Agente de SDR",
+    page_title="Agente SDR Scooto",
     page_icon="🤝",
     layout="wide",
     initial_sidebar_state="expanded"
@@ -26,7 +24,7 @@ st.markdown("""
     """, unsafe_allow_html=True)
 
 # Título da aplicação
-st.title("🤝 Agente de SDR")
+st.title("🤝 Agente SDR Scooto")
 st.write("Assistente de Desenvolvimento de Vendas")
 
 # Inicializa o estado da sessão
@@ -72,7 +70,7 @@ if st.button("🚀 Iniciar Análise e Abordagem", key="main_button"):
             "position": position,
             "message_type": message_type
         }
-        
+
         with st.spinner("Analisando o lead e preparando a abordagem... Aguarde, por favor."):
             st.session_state.resultado = run_sales_development(pergunta_usuario, inputs=inputs)
 
